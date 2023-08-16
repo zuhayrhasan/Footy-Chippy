@@ -25,11 +25,25 @@ def season_format(year):
             elif len(parts[0]) == 4 and len(parts[1]) == 2:  # If format is ABCD/YZ
                 if parts[0][2:] == str(int(parts[1]) - 1):  # If CD is 1 year less than YZ
                     return parts[0] # Return format as ABCD
-    elif year.isdigit() and len(year) == 4:  # If format is ABCD
-        return year  # Return format as ABCD
+            elif len(parts[0]) == 2 and len(parts[1]) == 2: # If format is 18/19
+                if parts[0] == str(int(parts[1]) - 1):  # If 18 is 1 year less than 19
+                    if (0 <= int(parts[0]) <= 79):
+                        return int("20" + parts[0])
+                    else:
+                        return int("19" + parts[0])
+            
+    elif year.isdigit() and len(year) == 4:
+        if str(year[:2]) == str(int(year[2:]) - 1): # If 1819, 8081
+            if (0 <= int(year[:2]) <= 79): 
+                return int("20" + year[:2]) # Return 2018
+            else:
+                return int("19" + year[:2]) # Return 1980
+        else:
+            return year
+
+    else:
+        return False
     
-    print("Invalid year: ", year)
-    return "Error"
 
 # Display proper season
 def season_display(year):
@@ -40,22 +54,34 @@ def season_display(year):
 # Format league
 def league_format(league):
     if (league == "ENG" or league == "England" or league == "1" or league == "Premier League"): return "ENG-Premier League"
-    if (league == "ESP" or league == "Spain" or league == "2" or league == "La Liga"): return "ESP-La Liga"
-    if (league == "ITA" or league == "Italy" or league == "3" or league == "Serie A"): return "ITA-Serie A"
-    if (league == "GER" or league == "Germany" or league == "4" or league == "Bundesliga"): return "GER-Bundesliga"
-    if (league == "FRA" or league == "France" or league == "5" or league == "Ligue 1"): return "FRA-Ligue 1"
+    elif (league == "ESP" or league == "Spain" or league == "2" or league == "La Liga"): return "ESP-La Liga"
+    elif (league == "ITA" or league == "Italy" or league == "3" or league == "Serie A"): return "ITA-Serie A"
+    elif (league == "GER" or league == "Germany" or league == "4" or league == "Bundesliga"): return "GER-Bundesliga"
+    elif (league == "FRA" or league == "France" or league == "5" or league == "Ligue 1"): return "FRA-Ligue 1"
 
-# See if player exists
-def check_player(p1_name, p1_league, p1_year):
-    fbref = sd.FBref(leagues = p1_league, seasons = p1_year)
-    player = fbref.read_player_season_stats(stat_type = "standard")
-
-    return not (player[player.index.get_level_values("player").str.contains(p1_name, case=False, na=False)].empty)
+    else:
+        return False
 
 # Fetch player stats
 def read_player_stats(fbref, stat_type, player_name):
     player_season_stats = fbref.read_player_season_stats(stat_type=stat_type)
     return player_season_stats[player_season_stats.index.get_level_values("player").str.contains(player_name, case=False, na=False)]
+
+# Get player
+def get_player(p_name, p_league, p_year):
+    try:
+        fbref = sd.FBref(leagues=p_league, seasons=p_year)
+        player = read_player_stats(fbref, "standard", p_name)
+
+        try:
+            player_name = player.index.get_level_values("player")[0]
+        except (IndexError, AttributeError):
+            player_name = None
+
+    except IndexError:
+        player_name = None
+
+    return player_name
 
 # Compare Stats
 def compare_statistics(statistic, p1_name, p1_year, p1_league, p2_name, p2_year, p2_league):
@@ -137,7 +163,7 @@ def standard(fbref1, p1_name, fbref2, p2_name):
     angles = np.flip(np.linspace(0, 2 * np.pi, num_categories, endpoint=True))
 
     # Make the plot circular
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(10, 6))
     ax = fig.add_subplot(111, polar=True)
 
     # Plot the data for Player 1
@@ -200,7 +226,7 @@ def standard(fbref1, p1_name, fbref2, p2_name):
         plt.Line2D([0], [0], marker='s', color='w', label=f"Full 90s: {p2_90s}"),
     ]
 
-    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.4, 1))
+    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.55, 1.05))
     ax.set_title(player1_name + " (" + season_display(player1_season) + ") vs " + player2_name + " (" + season_display(player2_season) + "): Standard Stats (Per 90)", y=1.075)
 
     plt.show()
@@ -262,7 +288,7 @@ def shooting(fbref1, p1_name, fbref2, p2_name):
     angles = np.flip(np.linspace(0, 2 * np.pi, num_categories, endpoint=True))
 
     # Make the plot circular
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(10, 6))
     ax = fig.add_subplot(111, polar=True)
 
     # Plot the data for Player 1
@@ -325,7 +351,7 @@ def shooting(fbref1, p1_name, fbref2, p2_name):
         plt.Line2D([0], [0], marker='s', color='w', label=f"Full 90s: {p2_90s}"),
     ]
 
-    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.4, 1))
+    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.5, 1.05))
     ax.set_title(player1_name + " (" + season_display(player1_season) + ") vs " + player2_name + " (" + season_display(player2_season) + "): Shooting Comparision", y=1.075)
 
     plt.show()
@@ -388,7 +414,7 @@ def final_ball(fbref1, p1_name, fbref2, p2_name):
     angles = np.flip(np.linspace(0, 2 * np.pi, num_categories, endpoint=True))
 
     # Make the plot circular
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(10, 6))
     ax = fig.add_subplot(111, polar=True)
 
     # Plot the data for Player 1
@@ -452,7 +478,7 @@ def final_ball(fbref1, p1_name, fbref2, p2_name):
         plt.Line2D([0], [0], marker='s', color='w', label=f"Full 90s: {p2_90s}"),
     ]
 
-    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.4, 1))
+    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.5, 1.05))
     ax.set_title(player1_name + " (" + season_display(player1_season) + ") vs " + player2_name + " (" + season_display(player2_season) + "): Final Ball Comparison (Per 90)", y=1.075)
 
     plt.show()
@@ -514,7 +540,7 @@ def goal_and_shot(fbref1, p1_name, fbref2, p2_name):
     angles = np.flip(np.linspace(0, 2 * pi, num_categories, endpoint=True))
 
     # Make the plot circular
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(10, 6))
     ax = fig.add_subplot(111, polar=True)
 
     # Plot the data for Player 1
@@ -578,7 +604,7 @@ def goal_and_shot(fbref1, p1_name, fbref2, p2_name):
         plt.Line2D([0], [0], marker='s', color='w', label=f"Full 90s: {p2_90s}"),
     ]
 
-    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.4, 1))
+    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.5, 1.05))
     ax.set_title(player1_name + " (" + season_display(player1_season) + ") vs " + player2_name + " (" + season_display(player2_season) + "): SCA and GCA Comparison (Per 90)", y=1.075)
 
     plt.show()
@@ -653,7 +679,7 @@ def playmaking(fbref1, p1_name, fbref2, p2_name):
     angles = np.flip(np.linspace(0, 2 * np.pi, num_categories, endpoint=True))
 
     # Make the plot circular
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(10, 6))
     ax = fig.add_subplot(111, polar=True)
 
     # Plot the data for Player 1
@@ -717,7 +743,7 @@ def playmaking(fbref1, p1_name, fbref2, p2_name):
         plt.Line2D([0], [0], marker='s', color='w', label=f"Full 90s: {p2_90s}"),
     ]
 
-    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.4, 1))
+    plt.legend(handles=custom_legend, loc='upper right', bbox_to_anchor=(1.5, 1.05))
     ax.set_title(player1_name + " (" + season_display(player1_season) + ") vs " + player2_name + " (" + season_display(player2_season) + "): Playmaking Comparison (Per 90)", y=1.075)
 
     plt.show()
@@ -930,8 +956,8 @@ while not firstPlayer:
     p1_name = input("P1 - Name: ")
     if (p1_name == ""):
         p1_name = "Mesut"
-        p1_league = league_format("ENG")
-        p1_year = season_format("2017/18")
+        p1_league = "ENG"
+        p1_year = "2017/18"
     else:
         print("\t [1] Premier League")
         print("\t [2] La Liga")
@@ -939,28 +965,31 @@ while not firstPlayer:
         print("\t [4] Bundesliga")
         print("\t [5] Ligue 1")
         p1_league = input("P1 - League: ")
-        p1_league = league_format(p1_league)
         p1_year = input("P1 - Season: ")
-        p1_year = season_format(p1_year)
     
     print("Chippy: Checking if player exists...")
     
-    doesPlayerExist = (check_player(p1_name, p1_league, p1_year))
-    if (doesPlayerExist):
-        print("Chippy: 'Found " + p1_name + "!")
-        print('================================================================')
-        firstPlayer = True
+    if (league_format(p1_league) and season_format(p1_year)):
+        player1Name = get_player(p1_name, league_format(p1_league), season_format(p1_year))
+        if (player1Name):
+            print("Chippy: Found '" + player1Name + "'!")
+            firstPlayer = True
+        else:
+            print("Chippy: '" + str(p1_name) + "' who played in '" + str(p1_league) + "' during '" + str(p1_year) + "' does not exist, try again.")
     else:
-        print("Chippy: '" + p1_name + "' who played in '" + p1_league + "' during '" + p1_year + " does not exist, try again.")
+        print("Chippy: '" + str(p1_name) + "' who played in '" + str(p1_league) + "' during '" + str(p1_year) + "' does not exist, try again.")
+
 
 # Select Second Player       
 secondPlayer = False
 while not secondPlayer:
+    print('================================================================')
+    print("Chippy: Enter your second player!")
     p2_name = input("P2 - Name: ")
     if (p2_name == ""):
         p2_name = "De Bruyne"
-        p2_league = league_format("ENG")
-        p2_year = season_format("2022/2023")
+        p2_league = "ENG"
+        p2_year = "2022/2023"
     else:
         print("\t [1] Premier League")
         print("\t [2] La Liga")
@@ -968,22 +997,23 @@ while not secondPlayer:
         print("\t [4] Bundesliga")
         print("\t [5] Ligue 1")
         p2_league = input("P2 - League: ")
-        p2_league = league_format(p2_league)
         p2_year = input("P2 - Season: ")
-        p2_year = season_format(p2_year)
     
     print("Chippy: Checking if player exists...")
     
-    doesPlayerExist = (check_player(p2_name, p2_league, p2_year))
-    if (doesPlayerExist):
-        print("Chippy: Found " + p2_name + "!")
-        print('================================================================')
-        secondPlayer = True
+    if (league_format(p2_league) and season_format(p2_year)):
+        player2Name = get_player(p2_name, league_format(p2_league), season_format(p2_year))
+        if (player2Name):
+            print("Chippy: Found '" + player2Name + "'!")
+            secondPlayer = True
+        else:
+            print("Chippy: '" + str(p2_name) + "' who played in '" + str(p2_league) + "' during '" + str(p2_year) + "' does not exist, try again.")
     else:
-        print("Chippy: '" + p2_name + "' who played in '" + p2_league + "' during '" + p2_year + "' does not exist, try again.")
+        print("Chippy: '" + str(p2_name) + "' who played in '" + str(p2_league) + "' during '" + str(p2_year) + "' does not exist, try again.")
 
 # Run while you want
 while True:
+    print('================================================================')
     # Which statistic?
     print("Chippy: The following stat types are available:")
 
@@ -1018,8 +1048,8 @@ while True:
         if stat_index in stats:
             statistic = stats[stat_index]
             print('================================================================')
-            print('Chippy: Loading ' + statistic.replace('_', ' ').title() + ' for ' + p1_name + ' and ' + p2_name + '.')
-            compare_statistics(statistic, p1_name, p1_year, p1_league, p2_name, p2_year, p2_league)
+            print("Chippy: Loading '" + statistic.replace('_', ' ').title() + "' for " + player1Name + " and " + player2Name + ".")
+            compare_statistics(statistic, p1_name, season_format(p1_year), league_format(p1_league), p2_name, season_format(p2_year), league_format(p2_league))
             print(f"Chippy: Statistic has been assigned the value: '{statistic}'")
         else:
             print("Chippy: Invalid index, try again")
