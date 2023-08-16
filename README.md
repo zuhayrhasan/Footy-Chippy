@@ -7,7 +7,7 @@ Chippy, your favourite football graph generator!
 
 - [About](#about)
 - [Features](#features)
-- [Getting Started](#getting-started)
+- [Installation](#installation)
 - [Conclusion](#conclusion)
 
 ## About
@@ -35,7 +35,7 @@ There are 8 different statistics you can use to compare the players:
 
 Each graph uses its own format in order to best visualize the data.
 
-## Getting Started
+## Installation
 
 1. Clone this repository to your local machine:
 
