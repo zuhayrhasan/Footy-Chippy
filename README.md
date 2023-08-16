@@ -60,13 +60,13 @@ python chippy.py
 
 5. Cached data:
 
-Once statistics are generated, they are saved under:
+    Once statistics are generated, they are saved under:
 
 <pre>
 C:\Users\youruser\soccerdata\data\FBref  
 </pre>
 
-This is to speed up the process if repeat graphs for the same players are generated.
+    This is to speed up the process if repeat graphs for the same players are generated.
 
 ## Conclusion
 
