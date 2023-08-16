@@ -1,0 +1,76 @@
+# data-scrapper
+
+Chippy, your favourite football visualizer bot!
+
+# Data Scrapper - Chippy, Your Football Visualizer Bot!
+
+Chippy is your go-to football visualizer bot that scrapes and presents football data in an easily digestible format.
+
+## Table of Contents
+
+- [About](#about)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Conclusion](#conclusion)
+
+## About
+
+Welcome to Data Scrapper, also known as Chippy, your personal football visualizer bot. Chippy is designed to scrape football data from FBref and present it in a user-friendly manner.
+
+My two biggest passions are football and programming, and I've always enjoyed creating graphs in order to compare footballers. However, it was getting tiring pulling data from FBref and exporting excel sheets. In order to make the process more efficient, I've created a simple bot to help me automate the graphs.
+
+## Features
+
+There are 8 different statistics you can use to compare the players:
+
+1. Standard
+2. Shooting
+3. Final Ball
+4. Goal and Shot Creation
+5. Playmaking
+6. Possession
+7. Pass Types
+8. Passing Distance
+
+Each graph uses its own format in order to best visualize the data.
+
+## Getting Started
+
+1. Clone this repository to your local machine:
+
+<pre>
+git clone https://github.com/zuhayrhasan/footy-chippy.git
+cd footy-chippy
+</pre>
+
+2. Install the required packages.
+
+<pre>
+pip install -r requirements.txt
+</pre>
+
+3. Run the Chippy program:
+
+<pre>
+python chippy.py
+</pre>
+
+4. Follow the steps in order to generate your graphs!
+
+5. Cached data:
+
+Once statistics are generated, they are saved under:
+
+<pre>
+C:\Users\youruser\soccerdata\data\FBref  
+</pre>
+
+This is to speed up the process if repeat graphs for the same players are generated.
+
+## Conclusion
+
+I hope you enjoy using this program! The FBref scrapper is from this link:
+
+https://github.com/probberechts/soccerdata
+
+Unfortunately, there are no good free API's for advanced statistics, and I found FBref to be the best website to get the data from. This project is not for monetary use, but just a passion project which allows me to visualize statistics in a quick manner.
