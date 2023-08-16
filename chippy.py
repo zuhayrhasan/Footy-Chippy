@@ -947,112 +947,117 @@ def passing_distance(fbref1, p1_name, fbref2, p2_name):
     plt.show()
 
 
-
-# Select First Player
-firstPlayer = False
-while not firstPlayer:
+def main():
     print('================================================================')
-    print("Chippy: Enter your first player!")
-    p1_name = input("P1 - Name: ")
-    if (p1_name == ""):
-        p1_name = "Mesut"
-        p1_league = "ENG"
-        p1_year = "2017/18"
-    else:
-        print("\t [1] Premier League")
-        print("\t [2] La Liga")
-        print("\t [3] Serie A")
-        print("\t [4] Bundesliga")
-        print("\t [5] Ligue 1")
-        p1_league = input("P1 - League: ")
-        p1_year = input("P1 - Season: ")
-    
-    print("Chippy: Checking if player exists...")
-    
-    if (league_format(p1_league) and season_format(p1_year)):
-        player1Name = get_player(p1_name, league_format(p1_league), season_format(p1_year))
-        if (player1Name):
-            print("Chippy: Found '" + player1Name + "'!")
-            firstPlayer = True
+    # Select First Player
+    firstPlayer = False
+    while not firstPlayer:
+        print("Chippy: Enter your first player!")
+        p1_name = input("P1 - Name: ")
+        if (p1_name == ""):
+            p1_name = "Mesut"
+            p1_league = "ENG"
+            p1_year = "2017/18"
+        else:
+            print("\t [1] Premier League")
+            print("\t [2] La Liga")
+            print("\t [3] Serie A")
+            print("\t [4] Bundesliga")
+            print("\t [5] Ligue 1")
+            p1_league = input("P1 - League: ")
+            p1_year = input("P1 - Season: ")
+        
+        print("Chippy: Checking if player exists...")
+        
+        if (league_format(p1_league) and season_format(p1_year)):
+            player1Name = get_player(p1_name, league_format(p1_league), season_format(p1_year))
+            if (player1Name):
+                print("Chippy: Found '" + player1Name + "'!")
+                firstPlayer = True
+            else:
+                print("Chippy: '" + str(p1_name) + "' who played in '" + str(p1_league) + "' during '" + str(p1_year) + "' does not exist, try again.")
         else:
             print("Chippy: '" + str(p1_name) + "' who played in '" + str(p1_league) + "' during '" + str(p1_year) + "' does not exist, try again.")
-    else:
-        print("Chippy: '" + str(p1_name) + "' who played in '" + str(p1_league) + "' during '" + str(p1_year) + "' does not exist, try again.")
+
+        print('================================================================')
 
 
-# Select Second Player       
-secondPlayer = False
-while not secondPlayer:
-    print('================================================================')
-    print("Chippy: Enter your second player!")
-    p2_name = input("P2 - Name: ")
-    if (p2_name == ""):
-        p2_name = "De Bruyne"
-        p2_league = "ENG"
-        p2_year = "2022/2023"
-    else:
-        print("\t [1] Premier League")
-        print("\t [2] La Liga")
-        print("\t [3] Serie A")
-        print("\t [4] Bundesliga")
-        print("\t [5] Ligue 1")
-        p2_league = input("P2 - League: ")
-        p2_year = input("P2 - Season: ")
-    
-    print("Chippy: Checking if player exists...")
-    
-    if (league_format(p2_league) and season_format(p2_year)):
-        player2Name = get_player(p2_name, league_format(p2_league), season_format(p2_year))
-        if (player2Name):
-            print("Chippy: Found '" + player2Name + "'!")
-            secondPlayer = True
+    # Select Second Player       
+    secondPlayer = False
+    while not secondPlayer:
+        print("Chippy: Enter your second player!")
+        p2_name = input("P2 - Name: ")
+        if (p2_name == ""):
+            p2_name = "De Bruyne"
+            p2_league = "ENG"
+            p2_year = "2022/2023"
+        else:
+            print("\t [1] Premier League")
+            print("\t [2] La Liga")
+            print("\t [3] Serie A")
+            print("\t [4] Bundesliga")
+            print("\t [5] Ligue 1")
+            p2_league = input("P2 - League: ")
+            p2_year = input("P2 - Season: ")
+        
+        print("Chippy: Checking if player exists...")
+        
+        if (league_format(p2_league) and season_format(p2_year)):
+            player2Name = get_player(p2_name, league_format(p2_league), season_format(p2_year))
+            if (player2Name):
+                print("Chippy: Found '" + player2Name + "'!")
+                secondPlayer = True
+            else:
+                print("Chippy: '" + str(p2_name) + "' who played in '" + str(p2_league) + "' during '" + str(p2_year) + "' does not exist, try again.")
         else:
             print("Chippy: '" + str(p2_name) + "' who played in '" + str(p2_league) + "' during '" + str(p2_year) + "' does not exist, try again.")
-    else:
-        print("Chippy: '" + str(p2_name) + "' who played in '" + str(p2_league) + "' during '" + str(p2_year) + "' does not exist, try again.")
+        
+        
+        print('================================================================')
 
-# Run while you want
-while True:
-    print('================================================================')
-    # Which statistic?
-    print("Chippy: The following stat types are available:")
+    # Run while you want
+    while True:
+        # Which statistic?
+        print("Chippy: The following stat types are available:")
 
-    stats = {
-        0: 'EXIT',
-        1: 'standard',
-        2: 'shooting',
-        3: 'final_ball',
-        4: 'goal_shot_creation',
-        5: 'playmaking',
-        6: 'possession',
-        7: 'pass_types',
-        8: 'passing_distance',
-    }
+        stats = {
+            0: 'EXIT',
+            1: 'standard',
+            2: 'shooting',
+            3: 'final_ball',
+            4: 'goal_shot_creation',
+            5: 'playmaking',
+            6: 'possession',
+            7: 'pass_types',
+            8: 'passing_distance',
+        }
 
-    # Loop through all possible stats
-    for key, value in stats.items():
-        formatted_value = value.replace('_', ' ').title()
-        print(f"[{key}] {formatted_value}")
+        # Loop through all possible stats
+        for key, value in stats.items():
+            formatted_value = value.replace('_', ' ').title()
+            print(f"[{key}] {formatted_value}")
 
-    # What they choose
-    stat = input("Chippy: Please select a stat type by entering a number (1-8): \n").lower()
+        # What they choose
+        stat = input("Chippy: Please select a stat type by entering a number (1-8): \n").lower()
 
-    if stat == 'EXIT':
-        break
-    elif stat == '0':
-        print("Chippy: I hope you enjoyed!")
-        break
-
-    if stat.isdigit():
-        stat_index = int(stat)
-        if stat_index in stats:
-            statistic = stats[stat_index]
+        if stat == 'EXIT':
+            break
+        elif stat == '0':
+            print("Chippy: I hope you enjoyed!")
             print('================================================================')
-            print("Chippy: Loading '" + statistic.replace('_', ' ').title() + "' for " + player1Name + " and " + player2Name + ".")
-            compare_statistics(statistic, p1_name, season_format(p1_year), league_format(p1_league), p2_name, season_format(p2_year), league_format(p2_league))
-            print(f"Chippy: Statistic has been assigned the value: '{statistic}'")
-        else:
-            print("Chippy: Invalid index, try again")
+            break
 
-    print('================================================================')
+        if stat.isdigit():
+            stat_index = int(stat)
+            if stat_index in stats:
+                statistic = stats[stat_index]
+                print("Chippy: Loading '" + statistic.replace('_', ' ').title() + "' for " + player1Name + " and " + player2Name + ".")
+                compare_statistics(statistic, p1_name, season_format(p1_year), league_format(p1_league), p2_name, season_format(p2_year), league_format(p2_league))
+                print(f"Chippy: Statistic has been assigned the value: '{statistic}'")
+            else:
+                print("Chippy: Invalid index, try again")
 
+        print('================================================================')
+
+if __name__ == '__main__':
+    main()
