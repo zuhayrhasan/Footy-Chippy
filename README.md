@@ -1,10 +1,7 @@
-# data-scrapper
+# footy-chippy
 
-Chippy, your favourite football visualizer bot!
-
-# Data Scrapper - Chippy, Your Football Visualizer Bot!
-
-Chippy is your go-to football visualizer bot that scrapes and presents football data in an easily digestible format.
+Chippy, your favourite football graph generator!
+(**Ch**art (ip) **Py**thon)
 
 ## Table of Contents
 
@@ -15,9 +12,11 @@ Chippy is your go-to football visualizer bot that scrapes and presents football 
 
 ## About
 
-Welcome to Data Scrapper, also known as Chippy, your personal football visualizer bot. Chippy is designed to scrape football data from FBref and present it in a user-friendly manner.
+Welcome to Footy-Chippy, also known as Chippy, your personal football visualizer bot. Chippy is designed to scrape football data from FBref and present it in a user-friendly manner.
 
 My two biggest passions are football and programming, and I've always enjoyed creating graphs in order to compare footballers. However, it was getting tiring pulling data from FBref and exporting excel sheets. In order to make the process more efficient, I've created a simple bot to help me automate the graphs.
+
+Sometimes when you are comparing players, it's hard to argue against just "G/A", and people are not often ready to listen to the npxG+xA/90 statistics you throw at them. What's easy to understand and hard to refuse? A bar chart. This program will help you generate accurate and easy-to-read graphs within seconds to help bias fans better understand your point of view! Never be fooled by a midfielder on paper and a striker on the pitch.
 
 ## Features
 
